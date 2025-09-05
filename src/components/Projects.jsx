@@ -19,6 +19,36 @@ function Projects() {
       features: ['Payment Processing', 'Real-time Booking', 'Media Management', 'Authentication', 'PDF Reports', 'Testing Suite'],
       demoLink: 'https://reservation-system-cyan-zeta.vercel.app/',
       codeLink: 'https://github.com/tesfa27/reservation-system'
+    },
+    {
+      id: 2,
+      title: 'E-Commerce Platform',
+      subtitle: 'Full-Stack Shopping Application',
+      description: 'Developed a full-stack E-Commerce platform using React 18 with Redux Toolkit, React Query, and Tailwind CSS for a responsive frontend, integrated with PayPal for secure payments. Features JWT authentication, media handling with Cloudinary, and data visualization using React Google Charts.',
+      category: 'fullstack',
+      year: '2024',
+      status: 'Live',
+      image: '🛒',
+      frontend: ['React 18', 'Redux Toolkit', 'React Query', 'Tailwind CSS', 'Bootstrap', 'Headless UI', 'PayPal', 'React Google Charts'],
+      backend: ['Node.js', 'Express 5', 'MongoDB', 'Mongoose', 'JWT', 'bcryptjs', 'Cloudinary', 'Multer', 'Nodemailer'],
+      features: ['PayPal Integration', 'Shopping Cart', 'Order Management', 'Email Notifications', 'Data Analytics', 'Media Upload'],
+      demoLink: 'https://e-commerce-woad-five-26.vercel.app/',
+      codeLink: 'https://github.com/tesfa27/e-commerce'
+    },
+    {
+      id: 3,
+      title: 'Admin Dashboard',
+      subtitle: 'Interactive Management Interface',
+      description: 'Developed an interactive admin dashboard using React 18 and Material UI with Emotion for modern UI components and theming. Implemented data visualization with Nivo charts and scheduling features using FullCalendar. Integrated responsive navigation with React Pro Sidebar, advanced tables with MUI Data Grid, and form management with Formik + Yup validation.',
+      category: 'frontend',
+      year: '2024',
+      status: 'Live',
+      image: '📊',
+      frontend: ['React 18', 'Material UI', 'Emotion', 'Nivo Charts', 'FullCalendar', 'React Pro Sidebar', 'Formik', 'Yup'],
+      backend: ['Frontend Only'],
+      features: ['Data Visualization', 'Calendar Scheduling', 'Advanced Tables', 'Form Validation', 'Responsive Design', 'Performance Monitoring'],
+      demoLink: 'https://tesfa-admin.netlify.app/',
+      codeLink: 'https://github.com/tesfa27'
     }
   ];
   
