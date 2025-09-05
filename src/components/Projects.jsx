@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+import reservationImg from '../assets/reservation-system.png';
+import ecommerceImg from '../assets/e-commerce.png';
+import adminImg from '../assets/admin-dashboard.png';
 
 function Projects() {
   const [selectedProject, setSelectedProject] = useState(0);
@@ -13,7 +16,7 @@ function Projects() {
       category: 'fullstack',
       year: '2024',
       status: 'Live',
-      image: '🏨',
+      image: reservationImg,
       frontend: ['React 19', 'Redux Toolkit', 'React Query', 'Tailwind CSS', 'React Hook Form', 'Zod', 'Stripe'],
       backend: ['Node.js', 'Express.js', 'MongoDB', 'Mongoose', 'JWT', 'bcryptjs', 'Cloudinary', 'Jest'],
       features: ['Payment Processing', 'Real-time Booking', 'Media Management', 'Authentication', 'PDF Reports', 'Testing Suite'],
@@ -28,7 +31,7 @@ function Projects() {
       category: 'fullstack',
       year: '2024',
       status: 'Live',
-      image: '🛒',
+      image: ecommerceImg,
       frontend: ['React 18', 'Redux Toolkit', 'React Query', 'Tailwind CSS', 'Bootstrap', 'Headless UI', 'PayPal', 'React Google Charts'],
       backend: ['Node.js', 'Express 5', 'MongoDB', 'Mongoose', 'JWT', 'bcryptjs', 'Cloudinary', 'Multer', 'Nodemailer'],
       features: ['PayPal Integration', 'Shopping Cart', 'Order Management', 'Email Notifications', 'Data Analytics', 'Media Upload'],
@@ -43,7 +46,7 @@ function Projects() {
       category: 'frontend',
       year: '2024',
       status: 'Live',
-      image: '📊',
+      image: adminImg,
       frontend: ['React 18', 'Material UI', 'Emotion', 'Nivo Charts', 'FullCalendar', 'React Pro Sidebar', 'Formik', 'Yup'],
       backend: ['Frontend Only'],
       features: ['Data Visualization', 'Calendar Scheduling', 'Advanced Tables', 'Form Validation', 'Responsive Design', 'Performance Monitoring'],
@@ -91,14 +94,16 @@ function Projects() {
                 <button
                   key={project.id}
                   onClick={() => setSelectedProject(index)}
-                  className={`px-6 py-3 rounded-lg transition-all duration-300 ${
+                  className={`p-2 rounded-lg transition-all duration-300 ${
                     selectedProject === index
                       ? 'bg-black text-white shadow-lg'
                       : 'text-gray-600 hover:text-black hover:bg-white'
                   }`}
                 >
                   <div className="text-center">
-                    <div className="text-2xl mb-1">{project.image}</div>
+                    <div className="w-16 h-10 mb-2 rounded overflow-hidden">
+                      <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                    </div>
                     <div className="text-caption">{project.title}</div>
                   </div>
                 </button>
@@ -112,12 +117,16 @@ function Projects() {
             {/* Left: Project Info */}
             <div className="space-y-8">
               <div>
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="text-5xl">{projects[selectedProject].image}</span>
-                  <div>
-                    <h3 className="text-heading text-black">{projects[selectedProject].title}</h3>
-                    <p className="text-body-large text-gray-600">{projects[selectedProject].subtitle}</p>
+                <div className="mb-6">
+                  <div className="w-full h-64 mb-4 rounded-xl overflow-hidden shadow-lg">
+                    <img 
+                      src={projects[selectedProject].image} 
+                      alt={projects[selectedProject].title}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
+                  <h3 className="text-heading text-black mb-2">{projects[selectedProject].title}</h3>
+                  <p className="text-body-large text-gray-600">{projects[selectedProject].subtitle}</p>
                 </div>
                 
                 <div className="flex items-center gap-4 mb-6">

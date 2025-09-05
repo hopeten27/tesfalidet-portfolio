@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import profilePhoto from '../assets/profile-photo.png';
 
 function Hero() {
   const [isVisible, setIsVisible] = useState(false);
@@ -57,16 +58,10 @@ function Hero() {
                 {/* Background decoration */}
                 <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-400 rounded-full blur-sm opacity-75"></div>
                 
-                {/* Photo placeholder - replace src with your actual photo */}
                 <img 
-                  src="/src/assets/profile-photo.jpg" // Add your photo here
+                  src={profilePhoto}
                   alt="Tesfalidet Markos"
                   className="relative w-full h-full object-cover rounded-full border-4 border-white/20 shadow-2xl"
-                  onError={(e) => {
-                    // Fallback if photo doesn't exist
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'flex';
-                  }}
                 />
                 
                 {/* Fallback placeholder */}
