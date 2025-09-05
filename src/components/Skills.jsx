@@ -1,104 +1,85 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 function Skills() {
-  const [activeTab, setActiveTab] = useState('frontend');
-  const sectionRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
   
-  const skills = {
-    frontend: [
-      { name: 'React.js', level: 90 },
-      { name: 'HTML/CSS', level: 95 },
-      { name: 'JavaScript', level: 85 },
-      { name: 'Responsive Design', level: 90 },
-      { name: 'Tailwind CSS', level: 85 }
-    ],
-    backend: [
-      { name: 'Django', level: 80 },
-      { name: 'Node.js', level: 85 },
-      { name: 'Express.js', level: 80 },
-      { name: 'RESTful APIs', level: 90 },
-      { name: 'Database Design', level: 75 }
-    ],
-    devops: [
-      { name: 'Docker', level: 75 },
-      { name: 'Kubernetes', level: 70 },
-      { name: 'CI/CD', level: 80 },
-      { name: 'Server Deployment', level: 85 },
-      { name: 'AWS', level: 65 }
-    ]
-  };
+  const skills = [
+    { name: 'React.js', category: 'Frontend', icon: '⚛️' },
+    { name: 'JavaScript', category: 'Frontend', icon: '🟨' },
+    { name: 'HTML/CSS', category: 'Frontend', icon: '🎨' },
+    { name: 'Tailwind CSS', category: 'Frontend', icon: '💨' },
+    { name: 'Node.js', category: 'Backend', icon: '🟢' },
+    { name: 'Express.js', category: 'Backend', icon: '⚡' },
+    { name: 'Django', category: 'Backend', icon: '🎯' },
+    { name: 'MongoDB', category: 'Backend', icon: '🍃' },
+    { name: 'PostgreSQL', category: 'Backend', icon: '🐘' },
+    { name: 'Docker', category: 'DevOps', icon: '🐳' },
+    { name: 'Git', category: 'Tools', icon: '📝' }
+  ];
   
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100', 'translate-y-0');
-          observer.unobserve(entry.target);
+          setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
     
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    const section = document.getElementById('skills');
+    if (section) observer.observe(section);
     
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="skills" className="py-20 bg-[var(--color-secondary-50)]">
-      <div 
-        ref={sectionRef} 
-        className="container mx-auto px-6 transition-all duration-1000 opacity-0 translate-y-10"
-      >
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold mb-12 text-center text-[var(--color-secondary-800)]">
-            My Skills
-          </h2>
-          
-          <div className="flex justify-center mb-10">
-            <div className="inline-flex rounded-md shadow-sm" role="group">
-              {Object.keys(skills).map((category) => (
-                <button
-                  key={category}
-                  type="button"
-                  className={`px-6 py-2 text-sm font-medium ${
-                    activeTab === category
-                      ? 'bg-[var(--color-primary)] text-[var(--color-accent)]'
-                      : 'bg-[var(--color-accent)] text-[var(--color-secondary-700)] hover:bg-[var(--color-secondary-100)]'
-                  } ${
-                    category === 'frontend' ? 'rounded-l-lg' : ''
-                  } ${
-                    category === 'devops' ? 'rounded-r-lg' : ''
-                  } border border-[var(--color-secondary-200)]`}
-                  onClick={() => setActiveTab(category)}
-                >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
-            {skills[activeTab].map((skill, index) => (
-              <div key={index} className="bg-[var(--color-accent)] p-6 rounded-lg shadow-md">
-                <div className="flex justify-between mb-2">
-                  <span className="font-medium text-[var(--color-secondary-700)]">{skill.name}</span>
-                  <span className="text-[var(--color-primary)]">{skill.level}%</span>
-                </div>
-                <div className="w-full bg-[var(--color-secondary-200)] rounded-full h-2.5">
-                  <div 
-                    className="bg-[var(--color-primary)] h-2.5 rounded-full transition-all duration-1000" 
-                    style={{ width: `${skill.level}%` }}
-                  ></div>
-                </div>
+    <section id="skills" className="py-24 bg-white">
+      <div className="container mx-auto px-6 max-w-6xl">
+        
+        {/* Section Header */}
+        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-heading text-black mb-4">Skills & Technologies</h2>
+          <div className="w-20 h-1 bg-black mx-auto mb-4"></div>
+          <p className="text-body-large text-gray-600 max-w-2xl mx-auto">
+            Technologies and tools I use to bring ideas to life
+          </p>
+        </div>
+
+        {/* Skills Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {skills.map((skill, index) => (
+            <div 
+              key={skill.name}
+              className={`group p-6 bg-gray-50 rounded-xl hover:bg-black hover:text-white transition-all duration-300 cursor-pointer transform hover:scale-105 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
+              <div className="text-center">
+                <div className="text-3xl mb-3">{skill.icon}</div>
+                <h3 className="text-caption text-black group-hover:text-white mb-1">{skill.name}</h3>
+                <p className="text-body text-gray-500 group-hover:text-gray-300">{skill.category}</p>
               </div>
-            ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Additional Info */}
+        <div className={`mt-16 text-center transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="p-6 bg-gray-50 rounded-xl">
+              <h4 className="text-caption text-black mb-2">Frontend Focus</h4>
+              <p className="text-body text-gray-600">Creating responsive, interactive user interfaces with modern frameworks</p>
+            </div>
+            <div className="p-6 bg-gray-50 rounded-xl">
+              <h4 className="text-caption text-black mb-2">Backend Development</h4>
+              <p className="text-body text-gray-600">Building robust APIs and server-side applications with scalable architecture</p>
+            </div>
+            <div className="p-6 bg-gray-50 rounded-xl">
+              <h4 className="text-caption text-black mb-2">DevOps & Deployment</h4>
+              <p className="text-body text-gray-600">Containerization, cloud deployment, and CI/CD pipeline management</p>
+            </div>
           </div>
         </div>
       </div>

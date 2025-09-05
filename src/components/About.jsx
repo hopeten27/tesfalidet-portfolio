@@ -1,74 +1,111 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 function About() {
-  const sectionRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100', 'translate-y-0');
-          observer.unobserve(entry.target);
+          setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
     
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    const section = document.getElementById('about');
+    if (section) observer.observe(section);
     
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="about" className="py-20 bg-accent">
-      <div 
-        ref={sectionRef} 
-        className="container mx-auto px-6 transition-all duration-1000 opacity-0 translate-y-10"
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="md:w-1/2">
-              <div className="relative">
-                <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary-500 mx-auto">
-                  {/* Replace with your actual image */}
-                  <div className="w-full h-full bg-gradient-to-br from-primary-400 to-primary"></div>
-                </div>
-                <div className="absolute -bottom-4 -right-4 bg-accent p-3 rounded-full shadow-lg">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                  </svg>
-                </div>
+    <section id="about" className="py-24 bg-gray-50">
+      <div className="container mx-auto px-6 max-w-6xl">
+        
+        {/* Section Header */}
+        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-heading text-black mb-4">About Me</h2>
+          <div className="w-20 h-1 bg-black mx-auto"></div>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          
+          {/* Content */}
+          <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <p className="text-body-large text-gray-700 mb-6">
+              Hi, I'm Tesfalidet Markos, a passionate Computer Engineer and Full Stack Developer 
+              with a degree from Hawassa University (2023). I specialize in creating efficient, 
+              scalable applications that deliver exceptional user experiences.
+            </p>
+            
+            <p className="text-body-large text-gray-700 mb-8">
+              My expertise spans both frontend and backend technologies, allowing me to build 
+              complete solutions from concept to deployment. I'm passionate about clean code, 
+              modern design, and solving complex problems with elegant solutions.
+            </p>
+            
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-6 mb-8">
+              <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                <div className="text-2xl font-bold text-black mb-1">2+</div>
+                <div className="text-gray-600 text-sm">Years Experience</div>
+              </div>
+              <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                <div className="text-2xl font-bold text-black mb-1">15+</div>
+                <div className="text-gray-600 text-sm">Projects Completed</div>
               </div>
             </div>
             
-            <div className="md:w-1/2">
-              <h2 className="text-3xl font-bold mb-6 text-secondary-800 relative inline-block">
-                About Me
-                <span className="absolute bottom-0 left-0 w-1/2 h-1 bg-primary-500"></span>
-              </h2>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a 
+                href="#contact" 
+                className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors text-center"
+              >
+                Get In Touch
+              </a>
+              <a 
+                href="#" 
+                className="px-6 py-3 border-2 border-black text-black rounded-lg hover:bg-black hover:text-white transition-colors text-center"
+              >
+                Download CV
+              </a>
+            </div>
+          </div>
+
+          {/* Skills Grid */}
+          <div className={`transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h3 className="text-subheading text-black mb-6">What I Do</h3>
+            
+            <div className="grid gap-4">
+              <div className="p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
+                </div>
+                <h4 className="text-caption text-black mb-2">Frontend Development</h4>
+                <p className="text-body text-gray-600">React, JavaScript, HTML/CSS, Tailwind</p>
+              </div>
               
-              <p className="text-lg text-secondary-700 mb-6 leading-relaxed">
-                Hi, I'm Tesfalidet Markos, a passionate Electrical and Computer Engineering graduate from Hawassa University (2023).
-                I specialize in building efficient, user-friendly, and scalable applications.
-              </p>
+              <div className="p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                  </svg>
+                </div>
+                <h4 className="text-caption text-black mb-2">Backend Development</h4>
+                <p className="text-body text-gray-600">Node.js, Python, Databases, APIs</p>
+              </div>
               
-              <p className="text-lg text-secondary-700 mb-8 leading-relaxed">
-                With a strong foundation in both frontend and backend technologies, I enjoy creating seamless user experiences while ensuring robust architecture. My approach combines technical excellence with creative problem-solving.
-              </p>
-              
-              <div className="flex gap-4">
-                <a href="#contact" className="px-6 py-2 bg-primary text-accent rounded-md hover:bg-primary-700 transition-colors">
-                  Get In Touch
-                </a>
-                <a href="#" className="px-6 py-2 border border-primary text-primary rounded-md hover:bg-primary-100 transition-colors">
-                  Download CV
-                </a>
+              <div className="p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                  </svg>
+                </div>
+                <h4 className="text-caption text-black mb-2">DevOps & Cloud</h4>
+                <p className="text-body text-gray-600">AWS, Docker, CI/CD, Deployment</p>
               </div>
             </div>
           </div>

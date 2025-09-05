@@ -1,148 +1,204 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 function Projects() {
-  const [filter, setFilter] = useState('all');
-  const sectionRef = useRef(null);
+  const [selectedProject, setSelectedProject] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
   
   const projects = [
     {
       id: 1,
-      title: 'E-commerce Web App',
-      description: 'Full MERN stack development for an online store with payment integration, user authentication, and admin dashboard.',
-      image: '/src/assets/project1.jpg', // Replace with actual image path
+      title: 'Reservation System',
+      subtitle: 'Full-Stack Web Application',
+      description: 'A comprehensive booking platform with real-time availability, secure payments, and media management.',
       category: 'fullstack',
-      technologies: ['React', 'Node.js', 'Express', 'MongoDB', 'Redux'],
-      demoLink: '#',
-      codeLink: '#'
-    },
-    {
-      id: 2,
-      title: 'Blog Platform',
-      description: 'Django and React-based blog with user authentication, rich text editing, and comment system.',
-      image: '/src/assets/project2.jpg', // Replace with actual image path
-      category: 'backend',
-      technologies: ['Django', 'React', 'PostgreSQL', 'AWS S3'],
-      demoLink: '#',
-      codeLink: '#'
-    },
-    {
-      id: 3,
-      title: 'Portfolio Website',
-      description: 'Designed and built using WordPress Elementor with custom CSS and JavaScript enhancements.',
-      image: '/src/assets/project3.jpg', // Replace with actual image path
-      category: 'frontend',
-      technologies: ['WordPress', 'Elementor', 'CSS', 'JavaScript'],
-      demoLink: '#',
-      codeLink: '#'
-    },
-    {
-      id: 4,
-      title: 'DevOps Setup',
-      description: 'Dockerized Django app deployed with Kubernetes on VPS with automated CI/CD pipeline.',
-      image: '/src/assets/project4.jpg', // Replace with actual image path
-      category: 'devops',
-      technologies: ['Docker', 'Kubernetes', 'GitHub Actions', 'Nginx'],
-      demoLink: '#',
-      codeLink: '#'
+      year: '2024',
+      status: 'Live',
+      image: '🏨',
+      frontend: ['React 19', 'Redux Toolkit', 'React Query', 'Tailwind CSS', 'React Hook Form', 'Zod', 'Stripe'],
+      backend: ['Node.js', 'Express.js', 'MongoDB', 'Mongoose', 'JWT', 'bcryptjs', 'Cloudinary', 'Jest'],
+      features: ['Payment Processing', 'Real-time Booking', 'Media Management', 'Authentication', 'PDF Reports', 'Testing Suite'],
+      demoLink: 'https://reservation-system-cyan-zeta.vercel.app/',
+      codeLink: 'https://github.com/tesfa27/reservation-system'
     }
   ];
-  
-  const filteredProjects = filter === 'all' 
-    ? projects 
-    : projects.filter(project => project.category === filter);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100', 'translate-y-0');
-          observer.unobserve(entry.target);
+          setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
     
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    const section = document.getElementById('projects');
+    if (section) observer.observe(section);
     
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="projects" className="py-20 bg-[var(--color-accent)]">
-      <div 
-        ref={sectionRef} 
-        className="container mx-auto px-6 transition-all duration-1000 opacity-0 translate-y-10"
-      >
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold mb-12 text-center text-[var(--color-secondary-800)]">
-            My Projects
-          </h2>
+    <section id="projects" className="py-24 bg-white">
+      <div className="container mx-auto px-6 max-w-7xl">
+        
+        {/* Section Header */}
+        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-heading text-black mb-4">Featured Work</h2>
+          <div className="w-20 h-1 bg-black mx-auto mb-4"></div>
+          <p className="text-body-large text-gray-600 max-w-2xl mx-auto">
+            Showcasing technical expertise through real-world applications
+          </p>
+        </div>
+
+        {/* Project Showcase */}
+        <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           
+          {/* Project Navigation */}
           <div className="flex justify-center mb-12">
-            <div className="inline-flex flex-wrap justify-center gap-2">
-              {['all', 'frontend', 'backend', 'fullstack', 'devops'].map((category) => (
+            <div className="flex space-x-2 bg-gray-100 p-2 rounded-xl">
+              {projects.map((project, index) => (
                 <button
-                  key={category}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    filter === category
-                      ? 'bg-[var(--color-primary)] text-[var(--color-accent)]'
-                      : 'bg-[var(--color-secondary-100)] text-[var(--color-secondary-700)] hover:bg-[var(--color-secondary-200)]'
+                  key={project.id}
+                  onClick={() => setSelectedProject(index)}
+                  className={`px-6 py-3 rounded-lg transition-all duration-300 ${
+                    selectedProject === index
+                      ? 'bg-black text-white shadow-lg'
+                      : 'text-gray-600 hover:text-black hover:bg-white'
                   }`}
-                  onClick={() => setFilter(category)}
                 >
-                  {category === 'all' ? 'All Projects' : category.charAt(0).toUpperCase() + category.slice(1)}
+                  <div className="text-center">
+                    <div className="text-2xl mb-1">{project.image}</div>
+                    <div className="text-caption">{project.title}</div>
+                  </div>
                 </button>
               ))}
             </div>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {filteredProjects.map((project) => (
-              <div key={project.id} className="bg-[var(--color-accent)] rounded-xl overflow-hidden shadow-lg transition-transform hover:-translate-y-2">
-                <div className="h-48 bg-[var(--color-secondary-300)] relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary-500)] to-[var(--color-gradient-purple)] flex items-center justify-center text-[var(--color-accent)] text-xl font-bold">
-                    {project.title}
+
+          {/* Project Details */}
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            
+            {/* Left: Project Info */}
+            <div className="space-y-8">
+              <div>
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-5xl">{projects[selectedProject].image}</span>
+                  <div>
+                    <h3 className="text-heading text-black">{projects[selectedProject].title}</h3>
+                    <p className="text-body-large text-gray-600">{projects[selectedProject].subtitle}</p>
                   </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2 text-[var(--color-secondary-800)]">{project.title}</h3>
-                  <p className="text-[var(--color-secondary-600)] mb-4">{project.description}</p>
-                  
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.technologies.map((tech, index) => (
-                      <span key={index} className="px-3 py-1 bg-[var(--color-primary-100)] text-[var(--color-primary-800)] text-xs font-medium rounded-full">
-                        {tech}
-                      </span>
-                    ))}
+                
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="px-3 py-1 bg-black text-white text-caption rounded-full">
+                    {projects[selectedProject].year}
+                  </span>
+                  <span className="px-3 py-1 bg-green-100 text-green-700 text-caption rounded-full">
+                    {projects[selectedProject].status}
+                  </span>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-700 text-caption rounded-full">
+                    {projects[selectedProject].category}
+                  </span>
+                </div>
+                
+                <p className="text-body-large text-gray-700 leading-relaxed">
+                  {projects[selectedProject].description}
+                </p>
+              </div>
+
+              {/* Key Features */}
+              <div>
+                <h4 className="text-subheading text-black mb-4">Key Features</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  {projects[selectedProject].features.map((feature, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-black rounded-full"></div>
+                      <span className="text-body text-gray-700">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-4">
+                <a 
+                  href={projects[selectedProject].demoLink} 
+                  className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors font-medium"
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  Live Demo
+                </a>
+                <a 
+                  href={projects[selectedProject].codeLink} 
+                  className="px-6 py-3 border-2 border-black text-black rounded-lg hover:bg-black hover:text-white transition-colors font-medium"
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  Source Code
+                </a>
+              </div>
+            </div>
+
+            {/* Right: Tech Stack */}
+            <div className="space-y-6">
+              
+              {/* Frontend Stack */}
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl">
+                <div className="flex items-center mb-4">
+                  <div className="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+                  <h5 className="text-caption text-black font-semibold">Frontend Stack</h5>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {projects[selectedProject].frontend.map((tech, index) => (
+                    <span key={index} className="px-3 py-1 bg-white text-gray-700 text-caption rounded-lg shadow-sm">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Backend Stack */}
+              <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl">
+                <div className="flex items-center mb-4">
+                  <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                  <h5 className="text-caption text-black font-semibold">Backend Stack</h5>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {projects[selectedProject].backend.map((tech, index) => (
+                    <span key={index} className="px-3 py-1 bg-white text-gray-700 text-caption rounded-lg shadow-sm">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Architecture Diagram */}
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <h5 className="text-caption text-black font-semibold mb-4">Architecture</h5>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 bg-white rounded-lg">
+                    <span className="text-body text-gray-700">Frontend</span>
+                    <span className="text-caption text-blue-600">React 19 + Redux</span>
                   </div>
-                  
-                  <div className="flex justify-between">
-                    <a 
-                      href={project.demoLink} 
-                      className="px-4 py-2 bg-[var(--color-primary)] text-[var(--color-accent)] rounded-md hover:bg-[var(--color-primary-700)] transition-colors text-sm font-medium"
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      Live Demo
-                    </a>
-                    <a 
-                      href={project.codeLink} 
-                      className="px-4 py-2 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-md hover:bg-[var(--color-primary-100)] transition-colors text-sm font-medium"
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      View Code
-                    </a>
+                  <div className="flex justify-center">
+                    <div className="w-px h-4 bg-gray-300"></div>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-white rounded-lg">
+                    <span className="text-body text-gray-700">API Layer</span>
+                    <span className="text-caption text-green-600">Express.js</span>
+                  </div>
+                  <div className="flex justify-center">
+                    <div className="w-px h-4 bg-gray-300"></div>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-white rounded-lg">
+                    <span className="text-body text-gray-700">Database</span>
+                    <span className="text-caption text-gray-600">MongoDB</span>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>
