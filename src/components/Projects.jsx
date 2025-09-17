@@ -52,6 +52,21 @@ function Projects() {
       features: ['Data Visualization', 'Calendar Scheduling', 'Advanced Tables', 'Form Validation', 'Responsive Design', 'Performance Monitoring'],
       demoLink: 'https://tesfa-admin.netlify.app/',
       codeLink: 'https://github.com/tesfa27'
+    },
+    {
+      id: 4,
+      title: 'AWS CI/CD Pipeline',
+      subtitle: 'DevOps & Cloud Infrastructure',
+      description: 'Professional Node.js REST API with automated CI/CD pipeline. Features automated testing, code quality checks, secure GitHub OIDC deployment, zero-downtime deployments to AWS Elastic Beanstalk, health monitoring, and automatic rollback on failure.',
+      category: 'devops',
+      year: '2024',
+      status: 'Live',
+      image: '⚙️',
+      frontend: ['REST API', 'CRUD Operations', 'Health Monitoring'],
+      backend: ['Node.js', 'Express.js', 'Jest', 'ESLint', 'GitHub Actions', 'AWS Elastic Beanstalk', 'Docker', 'OIDC'],
+      features: ['Automated Testing', 'Code Quality Checks', 'OIDC Authentication', 'Zero-downtime Deployment', 'Health Monitoring', 'Automatic Rollback', 'Containerization', 'CI/CD Workflow'],
+      demoLink: 'http://demo-env.eba-7smfn5dj.eu-north-1.elasticbeanstalk.com',
+      codeLink: 'https://github.com/tesfa27/aws-ci-cd-sample-app'
     }
   ];
   
