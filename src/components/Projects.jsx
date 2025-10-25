@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import reservationImg from '../assets/reservation-system.png';
 import ecommerceImg from '../assets/e-commerce.png';
 import adminImg from '../assets/admin-dashboard.png';
+import githubActionsImg from '../assets/github_actions.png';
 
 function Projects() {
-  const [selectedProject, setSelectedProject] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [playingVideo, setPlayingVideo] = useState(null);
+  const [fullscreenVideo, setFullscreenVideo] = useState(null);
   
   const projects = [
     {
@@ -13,13 +15,11 @@ function Projects() {
       title: 'Reservation System',
       subtitle: 'Full-Stack Web Application',
       description: 'A comprehensive booking platform with real-time availability, secure payments, and media management.',
-      category: 'fullstack',
+      category: 'Full Stack',
       year: '2024',
-      status: 'Live',
       image: reservationImg,
-      frontend: ['React 19', 'Redux Toolkit', 'React Query', 'Tailwind CSS', 'React Hook Form', 'Zod', 'Stripe'],
-      backend: ['Node.js', 'Express.js', 'MongoDB', 'Mongoose', 'JWT', 'bcryptjs', 'Cloudinary', 'Jest'],
-      features: ['Payment Processing', 'Real-time Booking', 'Media Management', 'Authentication', 'PDF Reports', 'Testing Suite'],
+      tech: ['React 19', 'Node.js', 'MongoDB', 'Stripe', 'JWT', 'Cloudinary'],
+      features: ['Payment Processing', 'Real-time Booking', 'Media Management', 'Authentication'],
       demoLink: 'https://reservation-system-cyan-zeta.vercel.app/',
       codeLink: 'https://github.com/tesfa27/reservation-system'
     },
@@ -27,14 +27,13 @@ function Projects() {
       id: 2,
       title: 'E-Commerce Platform',
       subtitle: 'Full-Stack Shopping Application',
-      description: 'Developed a full-stack E-Commerce platform using React 18 with Redux Toolkit, React Query, and Tailwind CSS for a responsive frontend, integrated with PayPal for secure payments. Features JWT authentication, media handling with Cloudinary, and data visualization using React Google Charts.',
-      category: 'fullstack',
+      description: 'Complete e-commerce solution with PayPal integration, shopping cart, order management, and data analytics.',
+      category: 'Full Stack',
       year: '2024',
-      status: 'Live',
       image: ecommerceImg,
-      frontend: ['React 18', 'Redux Toolkit', 'React Query', 'Tailwind CSS', 'Bootstrap', 'Headless UI', 'PayPal', 'React Google Charts'],
-      backend: ['Node.js', 'Express 5', 'MongoDB', 'Mongoose', 'JWT', 'bcryptjs', 'Cloudinary', 'Multer', 'Nodemailer'],
-      features: ['PayPal Integration', 'Shopping Cart', 'Order Management', 'Email Notifications', 'Data Analytics', 'Media Upload'],
+      video: 'https://res.cloudinary.com/dxmeua2xz/video/upload/v1761394243/ECOMSTORE_n93vex.mp4',
+      tech: ['React 18', 'Express 5', 'MongoDB', 'PayPal', 'Redux Toolkit', 'Cloudinary'],
+      features: ['PayPal Integration', 'Shopping Cart', 'Order Management', 'Email Notifications'],
       demoLink: 'https://e-commerce-woad-five-26.vercel.app/',
       codeLink: 'https://github.com/tesfa27/e-commerce'
     },
@@ -42,14 +41,12 @@ function Projects() {
       id: 3,
       title: 'Admin Dashboard',
       subtitle: 'Interactive Management Interface',
-      description: 'Developed an interactive admin dashboard using React 18 and Material UI with Emotion for modern UI components and theming. Implemented data visualization with Nivo charts and scheduling features using FullCalendar. Integrated responsive navigation with React Pro Sidebar, advanced tables with MUI Data Grid, and form management with Formik + Yup validation.',
-      category: 'frontend',
+      description: 'Modern admin dashboard with data visualization, calendar scheduling, and advanced table management.',
+      category: 'Frontend',
       year: '2024',
-      status: 'Live',
       image: adminImg,
-      frontend: ['React 18', 'Material UI', 'Emotion', 'Nivo Charts', 'FullCalendar', 'React Pro Sidebar', 'Formik', 'Yup'],
-      backend: ['Frontend Only'],
-      features: ['Data Visualization', 'Calendar Scheduling', 'Advanced Tables', 'Form Validation', 'Responsive Design', 'Performance Monitoring'],
+      tech: ['React 18', 'Material UI', 'Nivo Charts', 'FullCalendar', 'Formik', 'Yup'],
+      features: ['Data Visualization', 'Calendar Scheduling', 'Advanced Tables', 'Form Validation'],
       demoLink: 'https://tesfa-admin.netlify.app/',
       codeLink: 'https://github.com/tesfa27'
     },
@@ -57,14 +54,12 @@ function Projects() {
       id: 4,
       title: 'AWS CI/CD Pipeline',
       subtitle: 'DevOps & Cloud Infrastructure',
-      description: 'Professional Node.js REST API with automated CI/CD pipeline. Features automated testing, code quality checks, secure GitHub OIDC deployment, zero-downtime deployments to AWS Elastic Beanstalk, health monitoring, and automatic rollback on failure.',
-      category: 'devops',
+      description: 'Professional Node.js REST API with automated CI/CD pipeline, zero-downtime deployments, and health monitoring.',
+      category: 'DevOps',
       year: '2024',
-      status: 'Live',
-      image: '⚙️',
-      frontend: ['REST API', 'CRUD Operations', 'Health Monitoring'],
-      backend: ['Node.js', 'Express.js', 'Jest', 'ESLint', 'GitHub Actions', 'AWS Elastic Beanstalk', 'Docker', 'OIDC'],
-      features: ['Automated Testing', 'Code Quality Checks', 'OIDC Authentication', 'Zero-downtime Deployment', 'Health Monitoring', 'Automatic Rollback', 'Containerization', 'CI/CD Workflow'],
+      image: githubActionsImg,
+      tech: ['Node.js', 'GitHub Actions', 'AWS Beanstalk', 'Docker', 'Jest', 'OIDC'],
+      features: ['Automated Testing', 'Zero-downtime Deployment', 'Health Monitoring', 'CI/CD Workflow'],
       demoLink: 'http://demo-env.eba-7smfn5dj.eu-north-1.elasticbeanstalk.com',
       codeLink: 'https://github.com/tesfa27/aws-ci-cd-sample-app'
     }
@@ -86,176 +81,222 @@ function Projects() {
     return () => observer.disconnect();
   }, []);
 
+  // Auto-play video when card comes into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const projectId = parseInt(entry.target.dataset.projectId);
+          const project = projects.find(p => p.id === projectId);
+          
+          if (entry.isIntersecting && project?.video) {
+            setPlayingVideo(projectId);
+          } else {
+            setPlayingVideo(null);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    const projectCards = document.querySelectorAll('[data-project-id]');
+    projectCards.forEach(card => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, [isVisible]);
+
   return (
-    <section id="projects" className="py-24 bg-white">
+    <section id="projects" className="py-24 bg-gray-50">
       <div className="container mx-auto px-6 max-w-7xl">
         
         {/* Section Header */}
-        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-heading text-black mb-4">Featured Work</h2>
-          <div className="w-20 h-1 bg-black mx-auto mb-4"></div>
+        <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-heading text-black mb-4">Featured Projects</h2>
+          <div className="w-20 h-1 bg-black mx-auto mb-6"></div>
           <p className="text-body-large text-gray-600 max-w-2xl mx-auto">
-            Showcasing technical expertise through real-world applications
+            Showcasing real-world applications built with modern technologies
           </p>
         </div>
 
-        {/* Project Showcase */}
-        <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          
-          {/* Project Navigation */}
-          <div className="flex justify-center mb-12">
-            <div className="flex space-x-2 bg-gray-100 p-2 rounded-xl">
-              {projects.map((project, index) => (
-                <button
-                  key={project.id}
-                  onClick={() => setSelectedProject(index)}
-                  className={`p-2 rounded-lg transition-all duration-300 ${
-                    selectedProject === index
-                      ? 'bg-black text-white shadow-lg'
-                      : 'text-gray-600 hover:text-black hover:bg-white'
-                  }`}
-                >
-                  <div className="text-center">
-                    <div className="w-16 h-10 mb-2 rounded overflow-hidden">
-                      <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+        {/* Projects Grid */}
+        <div className="grid lg:grid-cols-2 gap-8">
+          {projects.map((project, index) => (
+            <div 
+              key={project.id}
+              data-project-id={project.id}
+              className={`group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+              style={{ transitionDelay: `${index * 200}ms` }}
+            >
+              {/* Project Image/Video */}
+              <div className="relative h-64 overflow-hidden">
+                {playingVideo === project.id && project.video ? (
+                  <video 
+                    src={project.video}
+                    autoPlay
+                    muted
+                    loop
+                    className="w-full h-full object-cover"
+                    onLoadStart={() => console.log('Video loading...')}
+                    onCanPlay={() => console.log('Video ready to play')}
+                  />
+                ) : (
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                )}
+                
+                {/* Video Play Button */}
+                {project.video && playingVideo !== project.id && (
+                  <button
+                    onClick={() => setPlayingVideo(project.id)}
+                    className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/20 transition-all duration-300 group/play"
+                  >
+                    <div className="w-16 h-16 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center group-hover/play:scale-110 group-hover/play:bg-black/90 transition-all duration-300">
+                      <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
                     </div>
-                    <div className="text-caption">{project.title}</div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
+                  </button>
+                )}
+                
+                {/* Video Controls */}
+                {playingVideo === project.id && (
+                  <>
+                    <button
+                      onClick={() => setPlayingVideo(null)}
+                      className="absolute top-4 right-4 w-10 h-10 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/90 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setFullscreenVideo(project.video);
+                        document.body.style.overflow = 'hidden';
+                      }}
+                      className="absolute top-4 left-4 w-10 h-10 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/90 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                      </svg>
+                    </button>
+                  </>
+                )}
+              </div>
 
-          {/* Project Details */}
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            
-            {/* Left: Project Info */}
-            <div className="space-y-8">
-              <div>
+              {/* Project Content */}
+              <div className="p-6">
+                {/* Project Header */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-subheading text-black font-bold">{project.title}</h3>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 text-caption rounded-full">
+                      {project.category}
+                    </span>
+                  </div>
+                  <p className="text-body text-gray-600">
+                    {project.description}
+                  </p>
+                </div>
+
+                {/* Tech Stack */}
                 <div className="mb-6">
-                  <div className="w-full h-64 mb-4 rounded-xl overflow-hidden shadow-lg">
-                    <img 
-                      src={projects[selectedProject].image} 
-                      alt={projects[selectedProject].title}
-                      className="w-full h-full object-cover"
-                    />
+                  <h4 className="text-caption text-black font-semibold mb-3">Tech Stack</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.slice(0, 4).map((tech, techIndex) => (
+                      <span key={techIndex} className="px-3 py-1 bg-gray-100 text-gray-700 text-caption rounded-lg">
+                        {tech}
+                      </span>
+                    ))}
+                    {project.tech.length > 4 && (
+                      <span className="px-3 py-1 bg-gray-200 text-gray-600 text-caption rounded-lg">
+                        +{project.tech.length - 4} more
+                      </span>
+                    )}
                   </div>
-                  <h3 className="text-heading text-black mb-2">{projects[selectedProject].title}</h3>
-                  <p className="text-body-large text-gray-600">{projects[selectedProject].subtitle}</p>
                 </div>
-                
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="px-3 py-1 bg-black text-white text-caption rounded-full">
-                    {projects[selectedProject].year}
-                  </span>
-                  <span className="px-3 py-1 bg-green-100 text-green-700 text-caption rounded-full">
-                    {projects[selectedProject].status}
-                  </span>
-                  <span className="px-3 py-1 bg-blue-100 text-blue-700 text-caption rounded-full">
-                    {projects[selectedProject].category}
-                  </span>
-                </div>
-                
-                <p className="text-body-large text-gray-700 leading-relaxed">
-                  {projects[selectedProject].description}
-                </p>
-              </div>
 
-              {/* Key Features */}
-              <div>
-                <h4 className="text-subheading text-black mb-4">Key Features</h4>
+                {/* Key Features */}
+                <div className="mb-6">
+                  <h4 className="text-caption text-black font-semibold mb-3">Key Features</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    {project.features.slice(0, 4).map((feature, featureIndex) => (
+                      <div key={featureIndex} className="flex items-center space-x-2">
+                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                        <span className="text-body text-gray-600 text-sm">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
                 <div className="grid grid-cols-2 gap-3">
-                  {projects[selectedProject].features.map((feature, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-black rounded-full"></div>
-                      <span className="text-body text-gray-700">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex gap-4">
-                <a 
-                  href={projects[selectedProject].demoLink} 
-                  className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors font-medium"
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  Live Demo
-                </a>
-                <a 
-                  href={projects[selectedProject].codeLink} 
-                  className="px-6 py-3 border-2 border-black text-black rounded-lg hover:bg-black hover:text-white transition-colors font-medium"
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  Source Code
-                </a>
-              </div>
-            </div>
-
-            {/* Right: Tech Stack */}
-            <div className="space-y-6">
-              
-              {/* Frontend Stack */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl">
-                <div className="flex items-center mb-4">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
-                  <h5 className="text-caption text-black font-semibold">Frontend Stack</h5>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {projects[selectedProject].frontend.map((tech, index) => (
-                    <span key={index} className="px-3 py-1 bg-white text-gray-700 text-caption rounded-lg shadow-sm">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Backend Stack */}
-              <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl">
-                <div className="flex items-center mb-4">
-                  <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
-                  <h5 className="text-caption text-black font-semibold">Backend Stack</h5>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {projects[selectedProject].backend.map((tech, index) => (
-                    <span key={index} className="px-3 py-1 bg-white text-gray-700 text-caption rounded-lg shadow-sm">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Architecture Diagram */}
-              <div className="bg-gray-50 p-6 rounded-xl">
-                <h5 className="text-caption text-black font-semibold mb-4">Architecture</h5>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-white rounded-lg">
-                    <span className="text-body text-gray-700">Frontend</span>
-                    <span className="text-caption text-blue-600">React 19 + Redux</span>
-                  </div>
-                  <div className="flex justify-center">
-                    <div className="w-px h-4 bg-gray-300"></div>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-white rounded-lg">
-                    <span className="text-body text-gray-700">API Layer</span>
-                    <span className="text-caption text-green-600">Express.js</span>
-                  </div>
-                  <div className="flex justify-center">
-                    <div className="w-px h-4 bg-gray-300"></div>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-white rounded-lg">
-                    <span className="text-body text-gray-700">Database</span>
-                    <span className="text-caption text-gray-600">MongoDB</span>
-                  </div>
+                  <a 
+                    href={project.demoLink} 
+                    className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors text-center text-caption font-medium"
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    Live Demo
+                  </a>
+                  <a 
+                    href={project.codeLink} 
+                    className="px-4 py-2 border-2 border-black text-black rounded-lg hover:bg-black hover:text-white transition-colors text-center text-caption font-medium"
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    View Code
+                  </a>
                 </div>
               </div>
             </div>
-          </div>
+          ))}
+        </div>
+
+        {/* Call to Action */}
+        <div className={`text-center mt-16 transition-all duration-700 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <p className="text-body-large text-gray-600 mb-6">Want to see more projects or discuss a collaboration?</p>
+          <a 
+            href="#contact" 
+            className="inline-block px-8 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors font-medium"
+          >
+            Get In Touch
+          </a>
         </div>
       </div>
+
+      {/* Fullscreen Video Modal */}
+      {fullscreenVideo && (
+        <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
+          <button 
+            onClick={() => {
+              setFullscreenVideo(null);
+              document.body.style.overflow = 'unset';
+            }}
+            className="absolute top-6 right-6 z-10 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          
+          <video 
+            src={fullscreenVideo}
+            autoPlay
+            controls
+            className="w-full h-full object-contain"
+            onEnded={() => {
+              setFullscreenVideo(null);
+              document.body.style.overflow = 'unset';
+            }}
+          />
+        </div>
+      )}
     </section>
   );
 }
