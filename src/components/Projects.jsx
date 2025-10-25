@@ -106,14 +106,21 @@ function Projects() {
   }, [isVisible]);
 
   return (
-    <section id="projects" className="py-24 bg-gray-50">
+    <section id="projects" className="py-24 bg-transparent">
       <div className="container mx-auto px-6 max-w-7xl">
         
         {/* Section Header */}
-        <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-heading text-black mb-4">Featured Projects</h2>
-          <div className="w-20 h-1 bg-black mx-auto mb-6"></div>
-          <p className="text-body-large text-gray-600 max-w-2xl mx-auto">
+        <div className={`mb-20 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="flex items-center gap-6 mb-8">
+            <div className="w-12 h-px bg-gradient-to-r from-blue-400 to-blue-500"></div>
+            <span className="text-mono text-gray-500 uppercase tracking-wider">Portfolio</span>
+          </div>
+          
+          <h2 className="text-heading text-black mb-6">
+            Featured <span className="text-blue-600">Projects</span>
+          </h2>
+          
+          <p className="text-body-large text-gray-600 max-w-2xl">
             Showcasing real-world applications built with modern technologies
           </p>
         </div>
@@ -124,13 +131,14 @@ function Projects() {
             <div 
               key={project.id}
               data-project-id={project.id}
-              className={`group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
-              style={{ transitionDelay: `${index * 200}ms` }}
+              className={`group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:scale-105 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              style={{ transitionDelay: `${index * 150}ms` }}
             >
+              {/* Creative Corner Accent */}
+              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-blue-500/20 to-transparent rounded-bl-3xl"></div>
+              
               {/* Project Image/Video */}
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-56 overflow-hidden">
                 {playingVideo === project.id && project.video ? (
                   <video 
                     src={project.video}
@@ -138,8 +146,6 @@ function Projects() {
                     muted
                     loop
                     className="w-full h-full object-cover"
-                    onLoadStart={() => console.log('Video loading...')}
-                    onCanPlay={() => console.log('Video ready to play')}
                   />
                 ) : (
                   <img 
@@ -153,10 +159,10 @@ function Projects() {
                 {project.video && playingVideo !== project.id && (
                   <button
                     onClick={() => setPlayingVideo(project.id)}
-                    className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/20 transition-all duration-300 group/play"
+                    className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/20 transition-all duration-300"
                   >
-                    <div className="w-16 h-16 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center group-hover/play:scale-110 group-hover/play:bg-black/90 transition-all duration-300">
-                      <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <div className="w-14 h-14 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                      <svg className="w-5 h-5 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z"/>
                       </svg>
                     </div>
@@ -165,90 +171,72 @@ function Projects() {
                 
                 {/* Video Controls */}
                 {playingVideo === project.id && (
-                  <>
-                    <button
-                      onClick={() => setPlayingVideo(null)}
-                      className="absolute top-4 right-4 w-10 h-10 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/90 transition-colors"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                    <button
-                      onClick={() => {
-                        setFullscreenVideo(project.video);
-                        document.body.style.overflow = 'hidden';
-                      }}
-                      className="absolute top-4 left-4 w-10 h-10 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/90 transition-colors"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                      </svg>
-                    </button>
-                  </>
+                  <button
+                    onClick={() => setPlayingVideo(null)}
+                    className="absolute top-4 right-4 w-8 h-8 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/90 transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
                 )}
+                
+
               </div>
 
               {/* Project Content */}
               <div className="p-6">
-                {/* Project Header */}
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-subheading text-black font-bold">{project.title}</h3>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-700 text-caption rounded-full">
-                      {project.category}
-                    </span>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-mono text-xs text-gray-500">{project.year}</span>
+                    <div className="w-6 h-px bg-gray-300"></div>
+                    <span className="text-mono text-xs text-blue-600 font-medium">Featured</span>
                   </div>
-                  <p className="text-body text-gray-600">
-                    {project.description}
-                  </p>
+                  <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-mono text-xs font-medium">{project.category}</span>
                 </div>
+                
+                <h3 className="text-body-large font-bold text-black mb-3 group-hover:text-blue-600 transition-colors">
+                  {project.title}
+                </h3>
+                
+                <p className="text-body text-gray-600 mb-4 leading-relaxed">
+                  {project.description}
+                </p>
 
                 {/* Tech Stack */}
                 <div className="mb-6">
-                  <h4 className="text-caption text-black font-semibold mb-3">Tech Stack</h4>
                   <div className="flex flex-wrap gap-2">
-                    {project.tech.slice(0, 4).map((tech, techIndex) => (
-                      <span key={techIndex} className="px-3 py-1 bg-gray-100 text-gray-700 text-caption rounded-lg">
+                    {project.tech.slice(0, 4).map((tech) => (
+                      <span 
+                        key={tech}
+                        className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-mono text-xs"
+                      >
                         {tech}
                       </span>
                     ))}
                     {project.tech.length > 4 && (
-                      <span className="px-3 py-1 bg-gray-200 text-gray-600 text-caption rounded-lg">
-                        +{project.tech.length - 4} more
+                      <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-mono text-xs">
+                        +{project.tech.length - 4}
                       </span>
                     )}
                   </div>
                 </div>
 
-                {/* Key Features */}
-                <div className="mb-6">
-                  <h4 className="text-caption text-black font-semibold mb-3">Key Features</h4>
-                  <div className="grid grid-cols-2 gap-2">
-                    {project.features.slice(0, 4).map((feature, featureIndex) => (
-                      <div key={featureIndex} className="flex items-center space-x-2">
-                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                        <span className="text-body text-gray-600 text-sm">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="grid grid-cols-2 gap-3">
+                {/* Project Links */}
+                <div className="flex gap-3">
                   <a 
-                    href={project.demoLink} 
-                    className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors text-center text-caption font-medium"
-                    target="_blank" 
+                    href={project.demoLink}
+                    target="_blank"
                     rel="noopener noreferrer"
+                    className="flex-1 text-body font-medium px-4 py-3 bg-black text-white rounded-xl hover:bg-blue-600 transition-all duration-300 text-center transform hover:scale-105"
                   >
                     Live Demo
                   </a>
                   <a 
-                    href={project.codeLink} 
-                    className="px-4 py-2 border-2 border-black text-black rounded-lg hover:bg-black hover:text-white transition-colors text-center text-caption font-medium"
-                    target="_blank" 
+                    href={project.codeLink}
+                    target="_blank"
                     rel="noopener noreferrer"
+                    className="flex-1 text-body font-medium px-4 py-3 border-2 border-blue-600 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all duration-300 text-center transform hover:scale-105"
                   >
                     View Code
                   </a>
@@ -257,28 +245,17 @@ function Projects() {
             </div>
           ))}
         </div>
-
-        {/* Call to Action */}
-        <div className={`text-center mt-16 transition-all duration-700 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <p className="text-body-large text-gray-600 mb-6">Want to see more projects or discuss a collaboration?</p>
-          <a 
-            href="#contact" 
-            className="inline-block px-8 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors font-medium"
-          >
-            Get In Touch
-          </a>
-        </div>
       </div>
 
       {/* Fullscreen Video Modal */}
       {fullscreenVideo && (
-        <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
-          <button 
+        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center">
+          <button
             onClick={() => {
               setFullscreenVideo(null);
-              document.body.style.overflow = 'unset';
+              document.body.style.overflow = 'auto';
             }}
-            className="absolute top-6 right-6 z-10 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+            className="absolute top-6 right-6 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -288,12 +265,10 @@ function Projects() {
           <video 
             src={fullscreenVideo}
             autoPlay
+            muted
+            loop
             controls
-            className="w-full h-full object-contain"
-            onEnded={() => {
-              setFullscreenVideo(null);
-              document.body.style.overflow = 'unset';
-            }}
+            className="max-w-full max-h-full"
           />
         </div>
       )}
