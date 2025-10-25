@@ -12,19 +12,6 @@ function Projects() {
   const projects = [
     {
       id: 1,
-      title: 'Reservation System',
-      subtitle: 'Full-Stack Web Application',
-      description: 'A comprehensive booking platform with real-time availability, secure payments, and media management.',
-      category: 'Full Stack',
-      year: '2024',
-      image: reservationImg,
-      tech: ['React 19', 'Node.js', 'MongoDB', 'Stripe', 'JWT', 'Cloudinary'],
-      features: ['Payment Processing', 'Real-time Booking', 'Media Management', 'Authentication'],
-      demoLink: 'https://reservation-system-cyan-zeta.vercel.app/',
-      codeLink: 'https://github.com/tesfa27/reservation-system'
-    },
-    {
-      id: 2,
       title: 'E-Commerce Platform',
       subtitle: 'Full-Stack Shopping Application',
       description: 'Complete e-commerce solution with PayPal integration, shopping cart, order management, and data analytics.',
@@ -36,6 +23,19 @@ function Projects() {
       features: ['PayPal Integration', 'Shopping Cart', 'Order Management', 'Email Notifications'],
       demoLink: 'https://e-commerce-woad-five-26.vercel.app/',
       codeLink: 'https://github.com/tesfa27/e-commerce'
+    },
+    {
+      id: 2,
+      title: 'Reservation System',
+      subtitle: 'Full-Stack Web Application',
+      description: 'A comprehensive booking platform with real-time availability, secure payments, and media management.',
+      category: 'Full Stack',
+      year: '2024',
+      image: reservationImg,
+      tech: ['React 19', 'Node.js', 'MongoDB', 'Stripe', 'JWT', 'Cloudinary'],
+      features: ['Payment Processing', 'Real-time Booking', 'Media Management', 'Authentication'],
+      demoLink: 'https://reservation-system-cyan-zeta.vercel.app/',
+      codeLink: 'https://github.com/tesfa27/reservation-system'
     },
     {
       id: 3,
